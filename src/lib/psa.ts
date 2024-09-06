@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { psaCardDataType } from './types';
+import { error, psaCardDataType } from './types';
 
-export async function psa(serialNumber: string): Promise<psaCardDataType | { error: string }> {
+export async function psa(serialNumber: string): Promise<psaCardDataType | error> {
 
   //here we are not using cheerio cause IP gets block, so found API of PSA, i have generated bearer token already
 
@@ -14,11 +14,11 @@ export async function psa(serialNumber: string): Promise<psaCardDataType | { err
       }
     });
 
-    if(response.status == 400) return {error: "No data found"}
+    if(response.status == 400) return {}
 
     return response.data.PSACert;
 
   } catch (error) {
-    return {error: "No data found"}
+    return {};
   }
 }

@@ -1,8 +1,8 @@
 import axios from 'axios';
 import * as cheerio from 'cheerio';
-import { cgcCardDataType } from './types';
+import { cgcCardDataType, error } from './types';
 
-export async function CGC(serialNumber: string): Promise<cgcCardDataType | { error: string }> {
+export async function CGC(serialNumber: string): Promise<cgcCardDataType | error> {
 
   // fetch data from url : https://www.cgccards.com/certlookup/123
 
@@ -27,12 +27,11 @@ export async function CGC(serialNumber: string): Promise<cgcCardDataType | { err
       graderNotes: $('.related-info dl dt:contains("Grader Notes") + dd').text().trim()
     };
 
-    if(cardData.serialNumber === "") return {error:"No data found"}
+    if(cardData.serialNumber === "") return {}
 
     return cardData;
 
   } catch (error) {
-    console.error('Error scraping Beckett:', error);
     return { error: 'An error occurred while scraping' };
   }
 }
