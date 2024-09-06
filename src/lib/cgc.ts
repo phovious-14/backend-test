@@ -27,8 +27,10 @@ export async function CGC(serialNumber: string): Promise<cgcCardDataType | { err
       graderNotes: $('.related-info dl dt:contains("Grader Notes") + dd').text().trim()
     };
 
+    if(cardData.serialNumber === "") return {error:"No data found"}
+
     return cardData;
-    
+
   } catch (error) {
     console.error('Error scraping Beckett:', error);
     return { error: 'An error occurred while scraping' };

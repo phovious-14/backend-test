@@ -14,10 +14,11 @@ export async function psa(serialNumber: string): Promise<psaCardDataType | { err
       }
     });
 
+    if(response.status == 400) return {error: "No data found"}
+
     return response.data.PSACert;
 
   } catch (error) {
-    console.error('Error fetching PSA certification:', error);
-    throw error;
+    return {error: "No data found"}
   }
 }
