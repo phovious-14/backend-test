@@ -3,6 +3,7 @@
 import React, { ChangeEvent, useState } from "react";
 import axios from "axios";
 import { beckettCardDataType, cgcCardDataType, psaCardDataType } from "@/lib/types";
+import DataPoints from "@/components/DataPoints";
 
 export default function Home() {
   const [data, setData] = useState<psaCardDataType | cgcCardDataType | beckettCardDataType | null>(null);
@@ -21,7 +22,6 @@ export default function Home() {
     axios
       .get(`/api/${gradingType}/${serialNumber}`)
       .then((response) => {
-        console.log(response);
         setData(response.data);
       })
       .catch((error) => {
@@ -94,14 +94,7 @@ export default function Home() {
         Object.keys(data).length === 0 ? (
           <div className="text-center text-red-500 font-semibold">No data found</div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {Object.entries(data).map(([key, value]) => (
-              <div key={key} className="bg-white p-4 rounded-lg shadow">
-                <span className="font-semibold text-gray-700">{key}:</span>{' '}
-                <span className="text-gray-900">{String(value)}</span>
-              </div>
-            ))}
-          </div>
+          <DataPoints data={data} />
         )
       ) : null}
     </div>
